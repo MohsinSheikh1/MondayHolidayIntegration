@@ -1,27 +1,35 @@
 const initMondayClient = require("monday-sdk-js");
 
-const getColumnValue = async (token, itemId, columnId) => {
+const getBoardItems = async (token, boardId) => {
   try {
     const mondayClient = initMondayClient();
     mondayClient.setToken(token);
     mondayClient.setApiVersion("2024-04");
 
-    const query = `query($itemId: [ID!], $columnId: [String!]) {
-            items (ids: $itemId) {
-                column_values(ids: $columnId) {
-                    value
-                }
+    const query = `query($boardId: [ID!]) {
+      boards(ids: $boardId) {
+        items_page(limit: 100) {
+          cursor
+          items {
+            name
+            column_values {
+              type
+              value
             }
-        }`;
-    const variables = { columnId, itemId };
+          }
+        }
+      }
+    }`;
+
+    const variables = { boardId };
 
     const response = await mondayClient.api(query, { variables });
-    return response.data.items[0].column_values[0].value;
+    return response.data.boards.items_page.items;
   } catch (err) {
     console.log(err);
   }
 };
 
 module.exports = {
-  getColumnValue,
+  getBoardItems,
 };

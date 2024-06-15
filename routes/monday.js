@@ -1,9 +1,8 @@
 const router = require("express").Router();
 
 //import authentication middleware here
+const mondayController = require("../controllers/monday-controller");
 
-//import controller here
-
-router.post("/monday/execute_action");
+router.post("/monday/execute_action", mondayController.executeAction);
 
 module.exports = router;

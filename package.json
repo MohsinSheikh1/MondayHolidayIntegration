@@ -5,15 +5,27 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "dev": "npm run stop && concurrently \"npm run server\" \"npm run expose\"",
+    "server": "nodemon ./app.js",
+    "expose": "mapps tunnel:create -p 8302",
+    "stop": "kill-port 8302"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
+    "cross-port-killer": "^1.4.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "jsonwebtoken": "^9.0.2",
-    "monday-sdk-js": "^0.5.5"
+    "monday-sdk-js": "^0.5.5",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@mondaycom/apps-cli": "^2.6.1",
+    "concurrently": "^8.2.2",
+    "debug": "^4.3.5",
+    "nodemon": "^3.1.3"
   }
 }
