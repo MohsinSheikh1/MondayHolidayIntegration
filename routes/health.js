@@ -12,6 +12,7 @@ router.get("/health", (req, res) => {
 });
 
 function getHealth() {
+  console.log("Checking health");
   return {
     status: "OK",
     message: "Healthy",
