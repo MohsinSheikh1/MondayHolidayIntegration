@@ -54,7 +54,35 @@ const getDateFromDateColumn = async (token, itemId, columnId) => {
   }
 };
 
+const changeResultColumnValue = async (
+  token,
+  boardId,
+  itemId,
+  columnId,
+  value
+) => {
+  try {
+    const mondayClient = initMondayClient({ token });
+    mondayClient.setApiVersion("2024-01");
+
+    const query = `mutation change_simple_column_value($boardId: ID!, $itemId: ID!, $columnId: String!, $value: String!) {
+      change_simple_column_value(board_id: $boardId, item_id: $itemId, column_id: $columnId, value: $value) {
+        id
+      }
+    }`;
+
+    const variables = { boardId, itemId, columnId, value };
+
+    const response = await mondayClient.api(query, { variables });
+    console.log(response);
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 module.exports = {
   getBoardItems,
   getDateFromDateColumn,
+  changeResultColumnValue,
 };
