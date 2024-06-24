@@ -5,15 +5,16 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js",
-    "dev": "npm run stop && concurrently \"npm run server\" \"npm run expose\"",
-    "server": "nodemon ./app.js",
-    "expose": "mapps tunnel:create -p 8302",
-    "stop": "kill-port 8302"
+    "start": "NODE_ENV=production node index.js",
+    "dev": "npm run dev:stop && concurrently \"npm run dev:server\" \"npm run dev:expose\"",
+    "dev:server": "nodemon ./app.js",
+    "dev:expose": "mapps tunnel:create -p 8080",
+    "dev:stop": "kill-port 8080"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@mondaycom/apps-sdk": "^3.0.10",
     "body-parser": "^1.20.2",
     "cross-port-killer": "^1.4.0",
     "dotenv": "^16.4.5",

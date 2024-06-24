@@ -1,6 +1,9 @@
 const mondayService = require("../services/monday-service");
 const formattingService = require("../services/formatting-service");
 const calculationService = require("../services/calculation-service");
+const { Logger } = require("@mondaycom/apps-sdk");
+const logTag = "Controller";
+const logger = new Logger(logTag);
 
 async function executeAction(req, res) {
   const { shortLivedToken } = req.session;
@@ -43,7 +46,7 @@ async function executeAction(req, res) {
 
     //handle situation when one or both startDate and endDate are not set
     if (!startDateColumnValue || !endDateColumnValue) {
-      console.log("Start Date or End date was not set");
+      logger.error("Start Date or End date was not set");
       return res.status(400).send({
         severityCode: 4000,
         notificationErrorTitle: "Invalid Start Or End Column Dates",
@@ -61,7 +64,7 @@ async function executeAction(req, res) {
 
     //check start days is before end days
     if (workingDays < 0) {
-      console.log("Start date is greater than end date");
+      logger.error("Start date is greater than end date");
       return res.status(400).send({
         severityCode: 4000,
         notificationErrorTitle: "Start Date After End Date",
@@ -88,7 +91,7 @@ async function executeAction(req, res) {
 
     return res.status(200).send({});
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     return res.status(500).send({
       severityCode: 6000,
       notificationErrorTitle: "Internal Server Error",

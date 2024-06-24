@@ -1,4 +1,8 @@
 const initMondayClient = require("monday-sdk-js");
+const { Logger } = require("@mondaycom/apps-sdk");
+
+const logTag = "Middleware";
+const logger = new Logger(logTag);
 
 const getBoardItems = async (token, boardId) => {
   try {
@@ -27,7 +31,7 @@ const getBoardItems = async (token, boardId) => {
     const response = await mondayClient.api(query, { variables });
     return response.data.boards[0].items_page.items;
   } catch (err) {
-    console.log(err);
+    logger.error(err);
   }
 };
 
@@ -54,7 +58,7 @@ const getDateFromDateColumn = async (token, itemId, columnId) => {
     const response = await mondayClient.api(query, { variables });
     return JSON.parse(response.data.items[0].column_values[0].value)?.date;
   } catch (err) {
-    console.log(err);
+    logger.error(err);
   }
 };
 
@@ -78,10 +82,10 @@ const changeResultColumnValue = async (
     const variables = { boardId, itemId, columnId, value };
 
     const response = await mondayClient.api(query, { variables });
-    console.log(response);
+    logger.info(response);
     return response;
   } catch (err) {
-    console.log(err);
+    logger.error(err);
   }
 };
 
