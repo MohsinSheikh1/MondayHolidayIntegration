@@ -33,6 +33,10 @@ const getBoardItems = async (token, boardId) => {
 
 const getDateFromDateColumn = async (token, itemId, columnId) => {
   //if date column is empty - value property inside column_values is "undefined"
+  /*
+  RETURNS DATE IF EXISTS
+  OTHERWISE UNDEFINED
+   **/
   try {
     const mondayClient = initMondayClient();
     mondayClient.setToken(token);

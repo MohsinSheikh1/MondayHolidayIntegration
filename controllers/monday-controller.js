@@ -43,7 +43,13 @@ async function executeAction(req, res) {
 
     //handle situation when one or both startDate and endDate are not set
     if (!startDateColumnValue || !endDateColumnValue) {
-      return res.status(200).send({});
+      console.log("Start Date or End date was not set");
+      return res.status(400).send({
+        severityCode: 4000,
+        notificationErrorTitle: "Invalid Start Or End Column Dates",
+        notificationErrorDescription: `Either Start Or End Column Date was not found for the item id ${itemId}`,
+        runtimeErrorDescription: `Automation failed to run because start date or end date column value was not found for item ${itemId} in board ${currentBoardId}`,
+      });
     }
 
     //calculate working days
@@ -55,7 +61,13 @@ async function executeAction(req, res) {
 
     //check start days is before end days
     if (workingDays < 0) {
-      return res.status(200).send({});
+      console.log("Start date is greater than end date");
+      return res.status(400).send({
+        severityCode: 4000,
+        notificationErrorTitle: "Start Date After End Date",
+        notificationErrorDescription: `Start Date is after End Date for the item id ${itemId}`,
+        runtimeErrorDescription: `Automation failed to run because start date is after end date for item ${itemId} in board ${currentBoardId}`,
+      });
     }
 
     //make mutations based on results in monday board
@@ -77,7 +89,13 @@ async function executeAction(req, res) {
     return res.status(200).send({});
   } catch (err) {
     console.log(err);
-    return res.status(500).send({ message: "internal server error" });
+    return res.status(500).send({
+      severityCode: 6000,
+      notificationErrorTitle: "Internal Server Error",
+      notificationErrorDescription: "Something went wrong",
+      runtimeErrorDescription:
+        "Automation failed to run due to an internal server error",
+    });
   }
 }
 

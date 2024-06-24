@@ -1,13 +1,16 @@
 function calculateWorkingDays(startDate, endDate, holidays) {
   /*
    * Calculate the number of working days between two dates, excluding weekends and holidays.
-   * Returns 0 if endDate occurs before startDate
+   * Returns -1 if endDate occurs before startDate
    * @param {string} startDate - The start date in "YYYY-MM-DD" format.
    * @param {string} endDate - The end date in "YYYY--MM-DD" format.
    * @param {list of strings} holidays - The holidays to be excluded.
    **/
   const start = new Date(startDate);
   const end = new Date(endDate);
+  if (start > end) {
+    return -1;
+  }
 
   let workingDays = 0;
 
