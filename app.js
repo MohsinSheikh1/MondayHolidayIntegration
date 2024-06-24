@@ -1,5 +1,5 @@
 require("dotenv").config();
-import { getSecret, isDevelopmentEnv, getEnv } from "./helpers/helpers";
+const { getSecret, isDevelopmentEnv, getEnv } = require("./helpers/helpers");
 const express = require("express");
 const bodyParser = require("body-parser");
 const healthRoutes = require("./routes/health");
@@ -29,7 +29,7 @@ app.listen(currentPort, () => {
       {
         env: getEnv(),
         port: currentPort,
-        url: `https://${currentUrl}`,
+        // url: `https://${currentUrl}`,
       }
     );
   }
