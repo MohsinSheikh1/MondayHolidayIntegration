@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=production node index.js",
+    "start": "NODE_ENV=production node app.js",
     "dev": "npm run dev:stop && concurrently \"npm run dev:server\" \"npm run dev:expose\"",
     "dev:server": "nodemon ./app.js",
     "dev:expose": "mapps tunnel:create -p 8080",
