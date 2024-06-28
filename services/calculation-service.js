@@ -36,8 +36,42 @@ function calculateWorkingDays(startDate, endDate, holidays) {
   return workingDays;
 }
 
+function calculateWorkdaysWithWorkfromHome(startDate, endDate, holidays) {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  if (start > end) {
+    return -1;
+  }
+
+  let workingDays = 0;
+
+  // Convert holiday strings to Date objects
+  const holidayDates = holidays.map((holiday) => new Date(holiday));
+
+  // Iterate over each day between start and end dates
+  for (let date = start; date <= end; date.setDate(date.getDate() + 1)) {
+    const dayOfWeek = date.getDay();
+    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6; // 0 = Sunday, 6 = Saturday
+    const isWorkFromHome =
+      dayOfWeek === 1 || dayOfWeek === 2 || dayOfWeek === 3;
+    const isHoliday = holidayDates.some(
+      (holiday) =>
+        holiday.getDate() === date.getDate() &&
+        holiday.getMonth() === date.getMonth() &&
+        holiday.getFullYear() === date.getFullYear()
+    );
+
+    if (!isWeekend && !isHoliday && !isWorkFromHome) {
+      workingDays++;
+    }
+  }
+
+  return workingDays;
+}
+
 module.exports = {
   calculateWorkingDays,
+  calculateWorkdaysWithWorkfromHome,
 };
 
 // Usage

@@ -8,4 +8,10 @@ router.post(
   mondayController.executeAction
 );
 
+router.post(
+  "/execute_workfromhome_action",
+  authenticationMiddleware,
+  mondayController.executeWorkFromHomeAction
+);
+
 module.exports = router;
