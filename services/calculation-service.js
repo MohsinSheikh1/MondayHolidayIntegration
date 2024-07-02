@@ -61,7 +61,7 @@ function calculateWorkdaysWithWorkfromHome(startDate, endDate, holidays) {
         holiday.getFullYear() === date.getFullYear()
     );
 
-    if (!isWeekend && !isHoliday && !isWorkFromHome) {
+    if (!isWeekend && !isHoliday && isWorkFromHome) {
       workingDays++;
     }
   }
